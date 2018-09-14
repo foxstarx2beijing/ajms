@@ -5,6 +5,7 @@ class humanAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
     list_display = ('name', 'human_type', 'company', 'deparment', 'title', 'phone', 'email')
     list_per_page = 20
+    list_filter = ('company', 'deparment')
     fieldsets = (
         ['个人信息', {
             'fields': ('name', 'human_type')
