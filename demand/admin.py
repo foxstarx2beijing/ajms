@@ -20,5 +20,10 @@ class humanAdmin(admin.ModelAdmin):
         }]
     )
 
+class demandAdmin(admin.ModelAdmin):
+    empty_value_display = '-empty-'
+    list_display = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
+    list_per_page = 20
+
 admin.site.register(human, humanAdmin)
-admin.site.register(demand)
+admin.site.register(demand, demandAdmin)
