@@ -12,6 +12,11 @@ class human(models.Model):
     def __str__(self):
         return self.name
 
+    def shortname(self):
+        return "%s-%s-%s" % (self.company, self.deparment, self.title)
+
+    shortname.short_description = '归属信息'
+
     class Meta:
         verbose_name = '人员'
         verbose_name_plural = '人员'
