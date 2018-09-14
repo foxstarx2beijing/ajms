@@ -10,6 +10,10 @@ class human(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = '人员'
+        verbose_name_plural = '人员'
+
 class demand(models.Model):
     name = models.CharField(max_length = 100, blank = False)
     publisher = human()
@@ -17,3 +21,7 @@ class demand(models.Model):
     priority = models.IntegerField(default = '4')
     processor = human()
     percent = models.IntegerField(blank = True)
+
+    class Meta:
+        verbose_name = '需求'
+        verbose_name_plural = '需求'
