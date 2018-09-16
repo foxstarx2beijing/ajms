@@ -4,8 +4,8 @@ enum_human_type = (
     ('processor', '承接方')
 )
 
-enum_demand_status = (
-    ('unknow', '未知'), 
-    ('undone', '未完成'), 
-    ('done', '完成')
-)
+enum_human_type_info = {
+    'untyped': {'color': 'AE0000', 'value': '未分类'},
+    'publisher': {'color': '8600FF', 'value': '需求方'},
+    'processor': {'color': '00BB00', 'value': '承接方'}
+}

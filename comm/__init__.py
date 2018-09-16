@@ -2,9 +2,9 @@ from django.apps import AppConfig
 import os
  
  
-default_app_config = 'demand.PrimaryBlogConfig'
+default_app_config = 'comm.PrimaryBlogConfig'
  
-VERBOSE_APP_NAME = u"需求相关配置"
+VERBOSE_APP_NAME = u"通用配置"
  
  
 def get_current_app_name(_file):
