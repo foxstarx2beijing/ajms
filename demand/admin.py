@@ -31,6 +31,11 @@ class demandAdmin(admin.ModelAdmin):
                 'fields': ('name', 'publisher', 'priority', 'processor', 'percent', 'status')
             }
         ], 
+        [
+            '详细信息', {
+                'fields': ('description',)
+            }
+        ], 
     )
 
 admin.site.register(human, humanAdmin)

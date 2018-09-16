@@ -50,6 +50,10 @@ class demand(models.Model):
     processor = models.ForeignKey(human, on_delete = models.CASCADE, related_name = '承接人')
     percent = models.IntegerField(blank = True, verbose_name = '进度')
     status = models.CharField(max_length = 10, blank = False, choices = enum_demand_status, verbose_name = '状态')
+    description = models.TextField(max_length = 2000, blank = True, verbose_name = '描述')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = '需求'
