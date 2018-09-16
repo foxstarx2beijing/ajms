@@ -3,8 +3,8 @@ from .models import human, demand
 
 class humanAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    # list_display = ('name', 'human_type', 'company', 'deparment', 'title', 'phone', 'email')
-    list_display = ('name', 'human_type', 'shortname', 'phone', 'email')
+    list_display = ('name', 'human_type', 'company', 'deparment', 'title', 'phone', 'email')
+    # list_display = ('name', 'get_human_type_display', 'shortname', 'phone', 'email')
     list_per_page = 20
     list_filter = ('company', 'deparment')
     search_fields = ('name', 'human_type', 'company', 'deparment', 'title', 'phone', 'email')
@@ -24,6 +24,15 @@ class demandAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
     list_display = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
     list_per_page = 20
+    # fieldsets = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
+    fieldsets = (
+        [
+            '基本信息', {
+                'fields': ('name', 'publisher', 'priority', 'processor', 'percent')
+            }
+        ], 
+    )
 
 admin.site.register(human, humanAdmin)
+# admin.site.register(processor, humanAdmin)
 admin.site.register(demand, demandAdmin)
