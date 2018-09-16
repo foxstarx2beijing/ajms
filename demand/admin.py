@@ -22,13 +22,13 @@ class humanAdmin(admin.ModelAdmin):
 
 class demandAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
+    list_display = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent', 'status')
     list_per_page = 20
     # fieldsets = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
     fieldsets = (
         [
             '基本信息', {
-                'fields': ('name', 'publisher', 'priority', 'processor', 'percent')
+                'fields': ('name', 'publisher', 'priority', 'processor', 'percent', 'status')
             }
         ], 
     )

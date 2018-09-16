@@ -1,5 +1,5 @@
 from django.db import models
-from .enums import enum_human_type
+from .enums import enum_human_type, enum_demand_status
 
 class human(models.Model):
     company = models.CharField(max_length = 100, blank = True, verbose_name = '公司')
@@ -49,6 +49,7 @@ class demand(models.Model):
     priority = models.IntegerField(default = '4', verbose_name = '优先级')
     processor = models.ForeignKey(human, on_delete = models.CASCADE, related_name = '承接人')
     percent = models.IntegerField(blank = True, verbose_name = '进度')
+    status = models.CharField(max_length = 10, blank = False, choices = enum_demand_status, verbose_name = '状态')
 
     class Meta:
         verbose_name = '需求'
