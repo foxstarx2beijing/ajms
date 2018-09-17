@@ -14,10 +14,10 @@ class humanAdmin(admin.ModelAdmin):
     # list_display = ('name', 'get_human_type_display', 'shortname', 'phone', 'email')
     list_per_page = 20
     list_filter = ('company', 'deparment')
-    search_fields = ('name', 'human_type', 'company', 'deparment', 'title', 'phone', 'email')
+    search_fields = ('name', 'humantype', 'company', 'deparment', 'title', 'phone', 'email')
     fieldsets = (
         ['个人信息', {
-            'fields': ('name', 'human_type')
+            'fields': ('name', 'humantype')
         }], 
         ['公司信息', {
             'fields': ('company', 'deparment', 'title')
@@ -30,7 +30,7 @@ class humanAdmin(admin.ModelAdmin):
 @admin.register(demand)
 class demandAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('name', 'publish_date', 'status', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
+    list_display = ('name', 'colored_status', 'publish_date', 'publisher', 'priority', 'processor', 'percent')
     list_per_page = 20
     # fieldsets = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
     fieldsets = (
@@ -45,14 +45,17 @@ class demandAdmin(admin.ModelAdmin):
             }
         ], 
     )
-    list_editable = ['status', 'percent']
+    list_filter = ('publisher', 'processor', 'priority')
+    search_fields = ('name', 'publisher', 'processor')
+    list_editable = ['percent','processor']
     date_hierarchy = 'publish_date'
 
 @admin.register(demand_status)
 class demand_statusAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('name', 'description')
-    
+    list_display = ('name', 'color_code', 'description')
+    list_editable = ['color_code']
 
-admin.site.site_header = 'Asiainfo Job Managment System'
+
+admin.site.site_header = 'Asiainfo Jobs Managment System'
 admin.site.site_title = 'AJMS'
