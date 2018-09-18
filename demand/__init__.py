@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 import os
- 
- 
+
+
 default_app_config = 'demand.PrimaryBlogConfig'
  
 VERBOSE_APP_NAME = u"需求相关配置"
