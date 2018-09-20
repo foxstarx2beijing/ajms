@@ -1,3 +1,4 @@
+import logging
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -5,6 +6,8 @@ from django.utils.html import format_html
 
 from comm.models import color_info
 from .enums import enum_human_type, enum_human_type_info
+
+logger = logging.getLogger('ajms')
 
 class human_type(models.Model):
     name = models.CharField(max_length = 100, blank = False, verbose_name = '类型名称')
@@ -46,6 +49,9 @@ class human(models.Model):
     class Meta:
         verbose_name = '参与人'
         verbose_name_plural = '参与人'
+
+    def to_db(self):
+        logger.debug('hi, this is demand`s to_db()')
 
     
 class demand_status(models.Model):
