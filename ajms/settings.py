@@ -122,3 +122,44 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[%(asctime)s]-[%(levelname)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+         'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter':'standard',
+        },
+        'tofile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter':'standard',
+            'filename': 'log/ajms.log',
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 7,
+        },
+        'toconsole': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter':'standard',
+        }
+    },
+    'loggers': {
+        'ajms': {
+            'handlers': ['toconsole', 'tofile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
