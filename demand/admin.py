@@ -1,5 +1,11 @@
 from django.contrib import admin
+from django.forms.models import model_to_dict
+from django.contrib.admin.models import LogEntry
 from .models import human_type, human, demand, demand_status
+
+import logging
+
+logger = logging.getLogger('ajms')
 
 @admin.register(human_type)
 class human_typeAdmin(admin.ModelAdmin):
@@ -26,6 +32,25 @@ class humanAdmin(admin.ModelAdmin):
             'fields': ('phone', 'email')
         }]
     )
+
+    def log_change(self, request, object, message):
+        new_message = []
+        for item in message:
+            obj = item
+            obj["changed"]["values"] = model_to_dict(object)
+            # for item_field in item["changed"]["fields"]:
+            #     obj["changed"]["values"][item_field] = object.__dict__[item_field]
+
+            new_message.append(obj)
+        super(humanAdmin, self).log_change(request, object, new_message)
+
+    def log_addition(self, request, object):
+        new_message = []
+        value = {}
+        value["added"] = {}
+        value["added"]["values"] = model_to_dict(object)
+        new_message.append(value)
+        super(humanAdmin, self).log_addition(request, object, new_message)
 
 @admin.register(demand)
 class demandAdmin(admin.ModelAdmin):
@@ -56,6 +81,7 @@ class demand_statusAdmin(admin.ModelAdmin):
     list_display = ('name', 'color_code', 'description')
     list_editable = ['color_code']
 
+admin.site.register(LogEntry)
 
 admin.site.site_header = 'Asiainfo Jobs Managment System'
 admin.site.site_title = 'AJMS'

@@ -46,13 +46,12 @@ class human(models.Model):
 
     shortname.short_description = '归属信息'
 
+    def to_str(self):
+        return 
+
     class Meta:
         verbose_name = '参与人'
         verbose_name_plural = '参与人'
-
-    def to_db(self):
-        logger.debug('hi, this is demand`s to_db()')
-
     
 class demand_status(models.Model):
     name = models.CharField(max_length = 100, blank = False, verbose_name = '状态名称')
