@@ -13,6 +13,22 @@ class human_typeAdmin(admin.ModelAdmin):
     list_display = ('name', 'color_code', 'description')
     list_editable = ['color_code']
 
+    def log_change(self, request, object, message):
+        new_message = []
+        for item in message:
+            obj = item
+            obj["changed"]["values"] = model_to_dict(object)
+            new_message.append(obj)
+        super(human_typeAdmin, self).log_change(request, object, new_message)
+
+    def log_addition(self, request, object):
+        new_message = []
+        value = {}
+        value["added"] = {}
+        value["added"]["values"] = model_to_dict(object)
+        new_message.append(value)
+        super(human_typeAdmin, self).log_addition(request, object, new_message)
+
 @admin.register(human)
 class humanAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
@@ -38,9 +54,6 @@ class humanAdmin(admin.ModelAdmin):
         for item in message:
             obj = item
             obj["changed"]["values"] = model_to_dict(object)
-            # for item_field in item["changed"]["fields"]:
-            #     obj["changed"]["values"][item_field] = object.__dict__[item_field]
-
             new_message.append(obj)
         super(humanAdmin, self).log_change(request, object, new_message)
 
@@ -75,11 +88,43 @@ class demandAdmin(admin.ModelAdmin):
     list_editable = ['percent','processor']
     date_hierarchy = 'publish_date'
 
+    def log_change(self, request, object, message):
+        new_message = []
+        for item in message:
+            obj = item
+            obj["changed"]["values"] = model_to_dict(object)
+            new_message.append(obj)
+        super(demandAdmin, self).log_change(request, object, new_message)
+
+    def log_addition(self, request, object):
+        new_message = []
+        value = {}
+        value["added"] = {}
+        value["added"]["values"] = model_to_dict(object)
+        new_message.append(value)
+        super(demandAdmin, self).log_addition(request, object, new_message)
+
 @admin.register(demand_status)
 class demand_statusAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
     list_display = ('name', 'color_code', 'description')
     list_editable = ['color_code']
+
+    def log_change(self, request, object, message):
+        new_message = []
+        for item in message:
+            obj = item
+            obj["changed"]["values"] = model_to_dict(object)
+            new_message.append(obj)
+        super(demand_statusAdmin, self).log_change(request, object, new_message)
+
+    def log_addition(self, request, object):
+        new_message = []
+        value = {}
+        value["added"] = {}
+        value["added"]["values"] = model_to_dict(object)
+        new_message.append(value)
+        super(demand_statusAdmin, self).log_addition(request, object, new_message)
 
 admin.site.register(LogEntry)
 
