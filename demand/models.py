@@ -46,9 +46,6 @@ class human(models.Model):
 
     shortname.short_description = '归属信息'
 
-    def to_str(self):
-        return 
-
     class Meta:
         verbose_name = '参与人'
         verbose_name_plural = '参与人'
