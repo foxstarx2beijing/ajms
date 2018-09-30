@@ -112,14 +112,14 @@ class demand_status(models.Model):
 class demand(models.Model):
     need_auto = models.BooleanField(verbose_name = '固化', default = True)
     name = models.CharField(max_length = 100, blank = False, verbose_name = '需求名称')
-    firster = models.ForeignKey(human, on_delete = models.PROTECT, related_name = '甲方对接人', verbose_name = '甲方对接人')
-    publisher = models.ForeignKey(human, on_delete = models.PROTECT, related_name = '需求人', verbose_name = '需求人')
+    firster = models.ForeignKey(human, blank = True, on_delete = models.PROTECT, related_name = '甲方对接人', verbose_name = '甲方对接人')
+    publisher = models.ForeignKey(human, blank = True, on_delete = models.PROTECT, related_name = '需求人', verbose_name = '需求人')
     publish_date = models.DateField(auto_now_add = True, verbose_name = '需求日期')
     ask_end_date = models.DateField(verbose_name = '要求完成日期', blank = True, default = timezone.now)
     plan_begin_date = models.DateField(verbose_name = '计划开发日期', blank = True, default = timezone.now)
     plan_end_date = models.DateField(verbose_name = '计划完成日期', blank = True, default = timezone.now)
     priority = models.ForeignKey(priority, on_delete = models.PROTECT, verbose_name = '优先级')
-    processor = models.ForeignKey(human, on_delete = models.PROTECT, related_name = '承接人', verbose_name = '承接人')
+    processor = models.ForeignKey(human, blank = True, on_delete = models.PROTECT, related_name = '承接人', verbose_name = '承接人')
     percent = models.IntegerField(blank = True, verbose_name = '进度', default = 0)
     # status = models.CharField(max_length = 10, blank = False, choices = enum_demand_status, verbose_name = '状态')
     status = models.ForeignKey(demand_status, on_delete = models.PROTECT, related_name = '需求', verbose_name = '状态')
@@ -157,9 +157,17 @@ class demand(models.Model):
         )
     colored_status.short_description = '状态'
 
-    def colored_priority(self):
+    def colored_name(self):
         return format_html(
             '<span style="color: #{};font-weight:bold">{}</span>',
+            self.priority.color_code.color_code,
+            '【%s】%s' % (self.priority.name, self.name),
+        )
+    colored_name.short_description = '需求名称'
+
+    def colored_priority(self):
+        return format_html(
+            '<span style="color: #{};font-weight:bold">{}</span>', 
             self.priority.color_code.color_code,
             self.priority.name,
         )
@@ -168,3 +176,13 @@ class demand(models.Model):
     class Meta:
         verbose_name = '需求'
         verbose_name_plural = '需求'
+
+class demand_step(models.Model):
+    title = models.CharField(max_length = 200, blank = True, verbose_name = '标题')
+    demand_obj = models.ForeignKey(demand, blank = False, on_delete = models.PROTECT, related_name = '步骤', verbose_name = '需求')
+    insert_date = models.DateField(auto_now_add = True, verbose_name = '添加日期')
+    description = models.TextField(max_length = 2000, blank = True, verbose_name = '描述')
+
+    class Meta:
+        verbose_name = '步骤'
+        verbose_name_plural = '步骤'

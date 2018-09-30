@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
-from .models import human_type, human, demand, demand_status, priority
+from .models import human_type, human, demand, demand_status, priority, demand_step
 
 import logging
 
@@ -88,13 +88,20 @@ class humanAdmin(admin.ModelAdmin):
         print(new_message)
         super(humanAdmin, self).log_addition(request, object, new_message)
 
+class demand_stepInline(admin.TabularInline):
+    model = demand_step
+    extra = 1
+    fields = ['title', 'insert_date', 'description']
+    readonly_fields = ('insert_date', )
+
 @admin.register(demand)
 class demandAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('need_auto', 'name', 'colored_priority', 'colored_status', 'publish_date', 'publisher', 'publisher_department', 'firster', 
-    'ask_end_date', 'plan_begin_date', 'plan_end_date', 'processor', 'percent')
+    list_display = ('colored_name', 'colored_status', 'publisher', 'publisher_department', 'firster', 
+    'publish_date', 'ask_end_date', 'processor', 'percent', 'need_auto')
     list_per_page = 20
-    readonly_fields = ('publish_date', )
+    inlines = [demand_stepInline, ]
+    readonly_fields = ('publish_date', 'status')
     # fieldsets = ('name', 'publisher', 'publish_date', 'priority', 'processor', 'percent')
     fieldsets = (
         [
@@ -120,7 +127,8 @@ class demandAdmin(admin.ModelAdmin):
     )
     list_filter = ('priority', 'publisher', 'processor')
     search_fields = ('name', 'publisher', 'processor')
-    list_editable = ['percent', ]
+    ordering = ('status', )
+    # list_editable = ['percent', ]
     date_hierarchy = 'publish_date'
 
     def log_change(self, request, object, message):
